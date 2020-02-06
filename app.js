@@ -4,7 +4,8 @@ const log4js = require('log4js');
 log4js.configure(require('./log4js-config'));
 const logger = log4js.getLogger('[app]');
 
-const async = require('async');
+const async  = require('async'),
+      crypto = require('crypto');
 
 const app = require('express')();
 
@@ -51,8 +52,9 @@ app.get('/delayed-chunks', async (req, res) => {
 
     await async.timesLimit(numberOfChunks, 1, async (n) => {
         const responseChunk = {
-            chunk: n + 1,
-            time:  new Date().toISOString()
+            chunk : n + 1,
+            time  : new Date().toISOString(),
+            random: randomStringHex(100)
         };
 
         if (res.socket.writable === false) {
@@ -73,3 +75,7 @@ app.get('/delayed-chunks', async (req, res) => {
 
     res.end();
 });
+
+function randomStringHex(length) {
+    return crypto.randomBytes(length).toString('hex');
+}
