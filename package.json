@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0",
+  "dependencies": {
+    "async": "3.1.1",
+    "dotenv-defaults": "1.1.1",
+    "express": "4.17.1",
+    "log4js": "6.1.1"
+  },
+  "devDependencies": {}
+}
