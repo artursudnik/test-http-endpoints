@@ -50,6 +50,8 @@ app.get('/delayed-chunks', async (req, res) => {
         chunksSent = 0;
     }, 1000);
 
+    res.set('Content-Type', 'application/json-seq');
+
     await async.timesLimit(numberOfChunks, 1, async (n) => {
         const responseChunk = {
             chunk : n + 1,
