@@ -10,7 +10,12 @@ const app = require('express')();
 
 module.exports = app;
 
-const sleep = ms => new Promise(res => setTimeout(res, ms));
+const sleep = ms => new Promise(res => {
+    if (ms === 0) {
+        return setImmediate(res);
+    }
+    setTimeout(res, ms);
+});
 
 app.set('strict routing', true);
 
@@ -47,9 +52,7 @@ app.get('/delayed-chunks', async (req, res) => {
 
         res.write(JSON.stringify(responseChunk) + '\n');
 
-        if (delay > 0) {
-            await sleep(delay);
-        }
+        await sleep(delay);
     }).catch((err) => {
         logger.error(`[${req.socket.remoteAddress}] ${err}`);
     });
