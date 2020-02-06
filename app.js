@@ -38,6 +38,9 @@ app.get('/delayed-chunks', async (req, res) => {
             chunk: n + 1,
             time:  new Date().toISOString()
         };
+
+        logger.debug(`[${req.socket.remoteAddress}] sending chunk ${n + 1}`);
+
         res.write(JSON.stringify(responseChunk) + '\n');
 
         await sleep(delay);
