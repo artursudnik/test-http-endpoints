@@ -39,11 +39,19 @@ app.get('/delayed-chunks', async (req, res) => {
             time:  new Date().toISOString()
         };
 
+        if (res.socket.writable === false) {
+            return Promise.reject(new Error('connection closed, aborting'));
+        }
+
         logger.debug(`[${req.socket.remoteAddress}] sending chunk ${n + 1}`);
 
         res.write(JSON.stringify(responseChunk) + '\n');
 
-        await sleep(delay);
+        if (delay > 0) {
+            await sleep(delay);
+        }
+    }).catch((err) => {
+        logger.error(`[${req.socket.remoteAddress}] ${err}`);
     });
 
     res.end();
