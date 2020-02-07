@@ -20,12 +20,12 @@ module.exports = {
         server
             .on('listening', () => logger.info(`listening on port ${PORT}, bind to ${BIND}`))
             .on('connection', socket => {
-                logger.debug(`connection from ${socket.remoteAddress}:${socket.remotePort}`);
+                logger.debug(`[${socket.remoteAddress}:${socket.remotePort}] new connection`);
 
                 socket.setNoDelay(true);
 
                 socket.on('close', (error) => {
-                    logger.debug(`connection from ${socket.remoteAddress}:${socket.remotePort} closed ${error ? 'with error' : ''}`);
+                    logger.debug(`[${socket.remoteAddress}:${socket.remotePort}] connection closed ${error ? 'with error' : ''}`);
                 })
             })
             .on('close', () => {
