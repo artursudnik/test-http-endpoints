@@ -19,6 +19,7 @@ const sleep = ms => new Promise(res => {
 });
 
 app.set('strict routing', true);
+app.enable('trust proxy');
 
 app.use((req, res, next) => {
     logger.debug(`[${req.socket.remoteAddress}:${req.socket.remotePort}] ${req.method} ${req.originalUrl} [STARTED]`);
