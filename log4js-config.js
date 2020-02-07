@@ -2,8 +2,6 @@
 
 const path = require('path');
 
-const logsFolder = path.resolve(process.env.LOGS_FOLDER);
-
 module.exports = {
     appenders : {
         stdout: {
@@ -11,16 +9,11 @@ module.exports = {
         },
         stderr: {
             type: 'stderr',
-        },
-        file  : {
-            type    : 'dateFile',
-            filename: path.join(logsFolder, 'server.log'),
-            pattern : '.yyyy-MM-dd'
         }
     },
     categories: {
         default: {
-            appenders: ['stdout', 'file'],
+            appenders: ['stdout'],
             level    : process.env.LOG_LEVEL || 'INFO',
         },
     },
