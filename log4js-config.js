@@ -6,6 +6,7 @@ module.exports = {
     appenders : {
         stdout: {
             type: 'stdout',
+            layout: {type: process.env.LOG_LAYOUT || 'messagePassThrough'}
         },
         stderr: {
             type: 'stderr',
