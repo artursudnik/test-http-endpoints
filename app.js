@@ -78,6 +78,10 @@ app.get('/delayed-chunks', async (req, res) => {
     res.end();
 });
 
+app.get('/bogus-endpoint', (req, res) => {
+    res.status(204).send();
+});
+
 function randomStringHex(length) {
     return crypto.randomBytes(length).toString('hex');
 }
