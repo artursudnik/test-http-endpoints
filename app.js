@@ -22,14 +22,14 @@ app.set('strict routing', true);
 app.enable('trust proxy');
 
 app.use((req, res, next) => {
-    logger.debug(`[${req.socket.remoteAddress}:${req.socket.remotePort}] ${req.method} ${req.originalUrl} [STARTED]`);
+    logger.debug(`[${req.ip}] ${req.method} ${req.originalUrl} [STARTED]`);
 
     res.on('finish', () => {
-        logger.debug(`[${req.socket.remoteAddress}:${req.socket.remotePort}] ${req.method} ${req.originalUrl} [FINISHED]`)
+        logger.debug(`[${req.ip}] ${req.method} ${req.originalUrl} [FINISHED]`)
     });
 
     res.on('close', () => {
-        logger.debug(`[${req.socket.remoteAddress}:${req.socket.remotePort}] ${req.method} ${req.originalUrl} [CLOSED]`)
+        logger.debug(`[${req.ip}] ${req.method} ${req.originalUrl} [CLOSED]`)
     });
 
     next()
@@ -46,7 +46,7 @@ app.get('/delayed-chunks', async (req, res) => {
         lastCountDisplayed = new Date();
 
     let countInterval = setInterval(() => {
-        logger.debug(`[${req.socket.remoteAddress}:${req.socket.remotePort}] ${chunksSent} chunks sent since ${lastCountDisplayed.toISOString()}`);
+        logger.debug(`[${req.ip}] ${chunksSent} chunks sent since ${lastCountDisplayed.toISOString()}`);
         lastCountDisplayed = new Date();
         chunksSent = 0;
     }, 1000);
@@ -70,10 +70,10 @@ app.get('/delayed-chunks', async (req, res) => {
 
         await sleep(delay);
     }).catch((err) => {
-        logger.error(`[${req.socket.remoteAddress}] ${err}`);
+        logger.error(`[${req.ip}] ${err}`);
     });
 
-    logger.debug(`[${req.socket.remoteAddress}:${req.socket.remotePort}] ${chunksSent} chunks sent since ${lastCountDisplayed.toISOString()}`);
+    logger.debug(`[${req.ip}] ${chunksSent} chunks sent since ${lastCountDisplayed.toISOString()}`);
     clearInterval(countInterval);
 
     res.end();
