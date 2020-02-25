@@ -91,6 +91,7 @@ app.get('/paginate', (req, res) => {
         hasNext: pageNumber < 11
     };
 
+    res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify(response, null, 4));
 });
 
