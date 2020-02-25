@@ -96,6 +96,11 @@ app.get('/paginate', (req, res) => {
     res.send(JSON.stringify(response, null, 4));
 });
 
+app.post('/consumer', (req, res) => {
+    console.log(JSON.stringify(req.headers));
+    res.send({status: "OK"})
+});
+
 function randomStringHex(length) {
     return crypto.randomBytes(length).toString('hex');
 }
