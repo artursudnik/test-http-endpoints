@@ -83,6 +83,17 @@ app.get('/bogus-endpoint', (req, res) => {
     res.status(204).send();
 });
 
+app.get('/paginate', (req, res) => {
+    const pageNumber = parseInt(req.query.pageNumber);
+
+    const response = {
+        items:   pageNumber < 11 ? Array(10).fill(null).map((e, i) => ({id: pageNumber * 10 + i + 1})) : [],
+        hasNext: pageNumber < 11
+    };
+
+    res.send(JSON.stringify(response, null, 4));
+});
+
 function randomStringHex(length) {
     return crypto.randomBytes(length).toString('hex');
 }
