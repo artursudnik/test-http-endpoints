@@ -88,7 +88,8 @@ app.get('/paginate', (req, res) => {
 
     const response = {
         items:   pageNumber < 11 ? Array(10).fill(null).map((e, i) => ({id: pageNumber * 10 + i + 1})) : [],
-        hasNext: pageNumber < 11
+        hasNext: pageNumber < 11,
+        nextPage: pageNumber < 10 ? pageNumber + 1 : null
     };
 
     res.setHeader('Content-Type', 'application/json');
