@@ -4,8 +4,9 @@ const log4js = require('log4js');
 log4js.configure(require('./log4js-config'));
 const logger = log4js.getLogger('[app]');
 
-const async  = require('async'),
-      crypto = require('crypto');
+const async        = require('async'),
+      asyncHandler = require('express-async-handler'),
+      crypto       = require('crypto');
 
 const app = require('express')();
 
@@ -35,7 +36,7 @@ app.use((req, res, next) => {
     next()
 });
 
-app.get('/delayed-chunks', async (req, res) => {
+app.get('/delayed-chunks', asyncHandler(async (req, res) => {
 
     const numberOfChunks = parseInt(req.query.n) || 0,
           delay          = parseInt(req.query.d) || 0;
@@ -77,7 +78,7 @@ app.get('/delayed-chunks', async (req, res) => {
     clearInterval(countInterval);
 
     res.end();
-});
+}));
 
 app.get('/bogus-endpoint', (req, res) => {
     res.status(204).send();
@@ -87,8 +88,8 @@ app.get('/paginate', (req, res) => {
     const pageNumber = parseInt(req.query.pageNumber);
 
     const response = {
-        items:   pageNumber < 11 ? Array(10).fill(null).map((e, i) => ({id: pageNumber * 10 + i + 1})) : [],
-        hasNext: pageNumber < 10,
+        items   : pageNumber < 11 ? Array(10).fill(null).map((e, i) => ({id: pageNumber * 10 + i + 1})) : [],
+        hasNext : pageNumber < 10,
         nextPage: pageNumber < 10 ? pageNumber + 1 : null
     };
 
